@@ -22,21 +22,23 @@ export type CartItemType = {
 
 const getProducts = async ():Promise<CartItemType[]> => {
   const result = await (await fetch('https://fakestoreapi.com/products')).json();
-  console.log(result)
   return result;
 }
 
 const App:React.FC = () => {
   const [cartOpen, setCartOpen] = useState(false),
         [cartItems, setCartItems] = useState([] as CartItemType[]),
-  //https://react-query.tanstack.com/overview
+        //https://react-query.tanstack.com/overview
       {data, isLoading, error} = useQuery<CartItemType[]>
         (
           'products', 
           getProducts
         );
+
+  console.log(data)
   
-  const getTotalItems = (items: CartItemType[]) => null;
+  const getTotalItems = (items: CartItemType[]) => 
+          items.reduce((acc:number, item)=> acc + item.amount, 0)
 
   const handleAddToCart = (clickedItem: CartItemType) => null;
 
